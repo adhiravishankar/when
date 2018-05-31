@@ -4,10 +4,9 @@ import (
 	"sort"
 	"time"
 
-	"github.com/olebedev/when/rules"
-	"github.com/olebedev/when/rules/common"
-	"github.com/olebedev/when/rules/en"
-	"github.com/olebedev/when/rules/ru"
+	"github.com/adhiravishankar/when/rules"
+	"github.com/adhiravishankar/when/rules/common"
+	"github.com/adhiravishankar/when/rules/en"
 	"github.com/pkg/errors"
 )
 
@@ -146,15 +145,8 @@ var defaultOptions = &rules.Options{
 // EN is a parser for English language
 var EN *Parser
 
-// RU is a parser for Russian language
-var RU *Parser
-
 func init() {
 	EN = New(nil)
 	EN.Add(en.All...)
 	EN.Add(common.All...)
-
-	RU = New(nil)
-	RU.Add(ru.All...)
-	RU.Add(common.All...)
 }
