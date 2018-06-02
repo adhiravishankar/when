@@ -24,8 +24,7 @@ type Options struct {
 
 	MatchByOrder bool
 
-	// TODO
-	// WeekStartsOn time.Weekday
+	WeekStartsOn time.Weekday
 }
 
 type Match struct {
@@ -33,19 +32,19 @@ type Match struct {
 	Text        string
 	Captures    []string
 	Order       float64
-	Applier     func(*Match, *Context, *Options, time.Time) (bool, error)
+	Applier     func(*Match, *Context, *Options, time.Time, time.Time) (bool, error)
 }
 
 func (m Match) String() string { return m.Text }
 
-func (m *Match) Apply(c *Context, o *Options, t time.Time) (bool, error) {
-	return m.Applier(m, c, o, t)
+func (m *Match) Apply(c *Context, o *Options, t time.Time, t2 time.Time) (bool, error) {
+	return m.Applier(m, c, o, t, t2)
 }
 
 type F struct {
 	Importance uint8
 	RegExp  *regexp.Regexp
-	Applier func(*Match, *Context, *Options, time.Time) (bool, error)
+	Applier func(*Match, *Context, *Options, time.Time, time.Time) (bool, error)
 }
 
 func (f *F) Find(text string) *Match {
