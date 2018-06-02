@@ -43,6 +43,7 @@ func (m *Match) Apply(c *Context, o *Options, t time.Time) (bool, error) {
 }
 
 type F struct {
+	Importance uint8
 	RegExp  *regexp.Regexp
 	Applier func(*Match, *Context, *Options, time.Time) (bool, error)
 }

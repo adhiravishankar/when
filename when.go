@@ -1,4 +1,4 @@
-package when
+package main
 
 import (
 	"sort"
@@ -8,6 +8,7 @@ import (
 	"github.com/adhiravishankar/when/rules/common"
 	"github.com/adhiravishankar/when/rules/en"
 	"github.com/pkg/errors"
+	"fmt"
 )
 
 // Parser is a struct which contains options
@@ -149,4 +150,9 @@ func init() {
 	EN = New(nil)
 	EN.Add(en.All...)
 	EN.Add(common.All...)
+}
+
+func main() {
+	thetime, _ := EN.Parse("yesterday 5:00 pm", time.Now())
+	fmt.Println(thetime.Time)
 }
