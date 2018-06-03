@@ -68,11 +68,11 @@ func Deadline(s rules.Strategy) rules.Rule {
 					}
 				case strings.Contains(exponent, "month"):
 					if c.Month == nil || overwrite {
-						c.Month = pointer.ToInt((int(ref.Month()) + num) % 12)
+						c.Month = pointer.ToInt((int(beginTime.Month()) + num) % 12)
 					}
 				case strings.Contains(exponent, "year"):
 					if c.Year == nil || overwrite {
-						c.Year = pointer.ToInt(ref.Year() + num)
+						c.Year = pointer.ToInt(beginTime.Year() + num)
 					}
 				}
 			} else {
@@ -96,7 +96,7 @@ func Deadline(s rules.Strategy) rules.Rule {
 					}
 				case strings.Contains(exponent, "year"):
 					if c.Month == nil || overwrite {
-						c.Month = pointer.ToInt((int(ref.Month()) + 6) % 12)
+						c.Month = pointer.ToInt((int(beginTime.Month()) + 6) % 12)
 					}
 				}
 			}
