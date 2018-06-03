@@ -14,7 +14,7 @@ func CasualTime(s rules.Strategy) rules.Rule {
 
 	return &rules.F{
 		RegExp: regexp.MustCompile(`(?i)(?:\W|^)((this)?\s*(morning|afternoon|evening|noon))`),
-		Applier: func(m *rules.Match, c *rules.Context, o *rules.Options, ref time.Time) (bool, error) {
+		Applier: func(m *rules.Match, c *rules.Context, o *rules.Options, beginTime time.Time, endTime time.Time) (bool, error) {
 
 			lower := strings.ToLower(strings.TrimSpace(m.String()))
 

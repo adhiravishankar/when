@@ -20,7 +20,7 @@ func Deadline(s rules.Strategy) rules.Rule {
 				"(" + INTEGER_WORDS_PATTERN + "|[0-9]+|an?(?:\\s*few)?|half(?:\\s*an?)?)\\s*" +
 				"(seconds?|min(?:ute)?s?|hours?|days?|weeks?|months?|years?)\\s*" +
 				"(?:\\W|$)"),
-		Applier: func(m *rules.Match, c *rules.Context, o *rules.Options, ref time.Time) (bool, error) {
+		Applier: func(m *rules.Match, c *rules.Context, o *rules.Options, beginTime time.Time, endTime time.Time) (bool, error) {
 
 			numStr := strings.TrimSpace(m.Captures[1])
 

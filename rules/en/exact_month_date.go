@@ -46,7 +46,7 @@ func ExactMonthDate(s rules.Strategy) rules.Rule {
 			"(?:\\W|$)",
 		),
 
-		Applier: func(m *rules.Match, c *rules.Context, o *rules.Options, ref time.Time) (bool, error) {
+		Applier: func(m *rules.Match, c *rules.Context, o *rules.Options, beginTime time.Time, endTime time.Time) (bool, error) {
 			_ = overwrite
 
 			ord1 := strings.ToLower(strings.TrimSpace(m.Captures[0]))

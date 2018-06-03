@@ -28,14 +28,16 @@ type Result struct {
 	// Source is input string
 	Source string
 	// Time is an output time
-	Time time.Time
+	BeginningTime time.Time
+	EndTime time.Time
 }
 
 // Parse returns Result and error if any. If have not matches it returns nil, nil.
-func (p *Parser) Parse(text string, base time.Time) (*Result, error) {
+func (p *Parser) Parse(text string) (*Result, error) {
 	res := Result{
 		Source: text,
-		Time:   base,
+		BeginningTime: time.Now(),
+		EndTime: time.Now(),
 		Index:  -1,
 	}
 
@@ -95,7 +97,7 @@ func (p *Parser) Parse(text string, base time.Time) (*Result, error) {
 	ctx := &rules.Context{Text: res.Text}
 	applied := false
 	for _, applier := range matches {
-		ok, err := applier.Apply(ctx, p.options, res.Time)
+		ok, err := applier.Apply(ctx, p.options, res.BeginningTime, res.EndTime)
 		if err != nil {
 			return nil, err
 		}
@@ -106,7 +108,8 @@ func (p *Parser) Parse(text string, base time.Time) (*Result, error) {
 		return nil, nil
 	}
 
-	res.Time, err = ctx.Time(res.Time)
+	res.BeginningTime, err = ctx.Time(res.BeginningTime)
+	res.EndTime, err = ctx.Time(res.EndTime)
 	if err != nil {
 		return nil, errors.Wrap(err, "bind context")
 	}
@@ -153,6 +156,6 @@ func init() {
 }
 
 func main() {
-	thetime, _ := EN.Parse("yesterday 5:00 pm", time.Now())
-	fmt.Println(thetime.Time)
+	thetime, _ := EN.Parse("yesterday 5:00 pm")
+	fmt.Println(thetime.BeginningTime)
 }

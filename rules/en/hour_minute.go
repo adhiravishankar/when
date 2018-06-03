@@ -36,7 +36,7 @@ func HourMinute(s rules.Strategy) rules.Rule {
 			"((?:[0-5][0-9]))" +
 			"(?:\\s*(A\\.|P\\.|A\\.M\\.|P\\.M\\.|AM?|PM?))?" +
 			"(?:\\W|$)"),
-		Applier: func(m *rules.Match, c *rules.Context, o *rules.Options, ref time.Time) (bool, error) {
+		Applier: func(m *rules.Match, c *rules.Context, o *rules.Options, beginTime time.Time, endTime time.Time) (bool, error) {
 			if (c.Hour != nil || c.Minute != nil) && s != rules.Override {
 				return false, nil
 			}

@@ -42,7 +42,7 @@ func SlashDMY(s rules.Strategy) rules.Rule {
 			"(?:[\\/\\\\]" +
 			"((?:1|2)[0-9]{3})\\s*)?" +
 			"(?:\\W|$)"),
-		Applier: func(m *rules.Match, c *rules.Context, o *rules.Options, ref time.Time) (bool, error) {
+		Applier: func(m *rules.Match, c *rules.Context, o *rules.Options, beginTime time.Time, endTime time.Time) (bool, error) {
 			if (c.Day != nil || c.Month != nil || c.Year != nil) && s != rules.Override {
 				return false, nil
 			}
@@ -70,17 +70,17 @@ func SlashDMY(s rules.Strategy) rules.Rule {
 				return true, nil
 			}
 
-			if int(ref.Month()) > month {
-				year = ref.Year() + 1
+			if int(beginTime.Month()) > month {
+				year = beginTime.Year() + 1
 				goto WithYear
 			}
 
-			if int(ref.Month()) == month {
-				if getDays(ref.Year(), month) >= day {
-					if day > ref.Day() {
-						year = ref.Year()
-					} else if day < ref.Day() {
-						year = ref.Year() + 1
+			if int(beginTime.Month()) == month {
+				if getDays(beginTime.Year(), month) >= day {
+					if day > beginTime.Day() {
+						year = beginTime.Year()
+					} else if day < beginTime.Day() {
+						year = beginTime.Year() + 1
 					} else {
 						return false, nil
 					}

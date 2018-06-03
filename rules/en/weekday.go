@@ -21,7 +21,7 @@ func Weekday(s rules.Strategy) rules.Rule {
 			"(?:\\W|$)",
 		),
 
-		Applier: func(m *rules.Match, c *rules.Context, o *rules.Options, ref time.Time) (bool, error) {
+		Applier: func(m *rules.Match, c *rules.Context, o *rules.Options, beginTime time.Time, endTime time.Time) (bool, error) {
 			_ = overwrite
 
 			day := strings.ToLower(strings.TrimSpace(m.Captures[1]))
@@ -41,7 +41,7 @@ func Weekday(s rules.Strategy) rules.Rule {
 			// Switch:
 			switch {
 			case strings.Contains(norm, "past") || strings.Contains(norm, "last"):
-				diff := int(ref.Weekday()) - dayInt
+				diff := int(beginTime.Weekday()) - dayInt
 				if diff > 0 {
 					c.Duration = -time.Duration(diff*24) * time.Hour
 				} else if diff < 0 {
@@ -50,7 +50,7 @@ func Weekday(s rules.Strategy) rules.Rule {
 					c.Duration = -(7 * 24 * time.Hour)
 				}
 			case strings.Contains(norm, "next"):
-				diff := dayInt - int(ref.Weekday())
+				diff := dayInt - int(beginTime.Weekday())
 				if diff > 0 {
 					c.Duration = time.Duration(diff*24) * time.Hour
 				} else if diff < 0 {
@@ -59,8 +59,8 @@ func Weekday(s rules.Strategy) rules.Rule {
 					c.Duration = 7 * 24 * time.Hour
 				}
 			case strings.Contains(norm, "this"):
-				if int(ref.Weekday()) < dayInt {
-					diff := dayInt - int(ref.Weekday())
+				if int(beginTime.Weekday()) < dayInt {
+					diff := dayInt - int(beginTime.Weekday())
 					if diff > 0 {
 						c.Duration = time.Duration(diff*24) * time.Hour
 					} else if diff < 0 {
@@ -68,8 +68,8 @@ func Weekday(s rules.Strategy) rules.Rule {
 					} else {
 						c.Duration = 7 * 24 * time.Hour
 					}
-				} else if int(ref.Weekday()) > dayInt {
-					diff := int(ref.Weekday()) - dayInt
+				} else if int(beginTime.Weekday()) > dayInt {
+					diff := int(beginTime.Weekday()) - dayInt
 					if diff > 0 {
 						c.Duration = -time.Duration(diff*24) * time.Hour
 					} else if diff < 0 {
